@@ -65,7 +65,8 @@ exports.getListings = async (req, res) => {
         // If filtering by claimant (My Claims)
         else if (claimedBy) {
             query.claimedBy = claimedBy;
-            query.status = 'claimed'; // Only show claimed items (not collected/expired unless we want history)
+            // Show both currently claimed and previously collected items
+            query.status = { $in: ['claimed', 'collected'] };
         }
         // General Feed (only active items)
         else {

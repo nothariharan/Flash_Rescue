@@ -141,6 +141,11 @@ const ConsumerPage = () => {
     };
 
     const handleClaim = async (item) => {
+        if (user.role === 'donor') {
+            alert("Donors cannot claim items. Please switch to a Consumer or Organization account.");
+            return;
+        }
+
         if (!navigator.geolocation) {
             alert("Geolocation is not supported by your browser. Cannot verify location.");
             return;
@@ -396,12 +401,18 @@ const ConsumerPage = () => {
                                                         >
                                                             <MessageSquare size={20} />
                                                         </button>
-                                                        <button
-                                                            onClick={() => handleClaim(item)}
-                                                            className="flex-1 bg-brand-text text-white py-2 rounded-lg font-bold hover:bg-brand-primary transition-colors flex justify-center items-center"
-                                                        >
-                                                            Claim Now
-                                                        </button>
+                                                        {user.role !== 'donor' ? (
+                                                            <button
+                                                                onClick={() => handleClaim(item)}
+                                                                className="flex-1 bg-brand-text text-white py-2 rounded-lg font-bold hover:bg-brand-primary transition-colors flex justify-center items-center"
+                                                            >
+                                                                Claim Now
+                                                            </button>
+                                                        ) : (
+                                                            <div className="flex-1 bg-gray-100 text-gray-400 py-2 rounded-lg font-bold flex justify-center items-center cursor-not-allowed">
+                                                                View Only
+                                                            </div>
+                                                        )}
                                                     </div>
                                                 )}
                                             </div>
