@@ -21,15 +21,15 @@ Flash-Rescue creates a win-win marketplace that accelerates food recovery:
 
 | Dashboard | Real-time Map |
 |:---:|:---:|
-| ![Dashboard](pic1.png) | ![Map View](pic2.png) |
+| ![Dashboard](assets/pic1.png) | ![Map View](assets/pic2.png) |
 
 | Listings | Mobile View |
 |:---:|:---:|
-| ![Listings](pic3.png) | ![Mobile](pic4.png) |
+| ![Listings](assets/pic3.png) | ![Mobile](assets/pic4.png) |
 
 *(More previews accessible in the generic gallery)*
-![App Preview](pic5.png)
-![App Preview](pic6.png)
+![App Preview](assets/pic5.png)
+![App Preview](assets/pic6.png)
 
 ---
 
