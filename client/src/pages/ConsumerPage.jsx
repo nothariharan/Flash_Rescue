@@ -401,7 +401,7 @@ const ConsumerPage = () => {
                                                         >
                                                             <MessageSquare size={20} />
                                                         </button>
-                                                        {user.role !== 'donor' ? (
+                                                        {!user || user.role !== 'donor' ? (
                                                             <button
                                                                 onClick={() => handleClaim(item)}
                                                                 className="flex-1 bg-brand-text text-white py-2 rounded-lg font-bold hover:bg-brand-primary transition-colors flex justify-center items-center"
