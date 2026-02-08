@@ -12,6 +12,8 @@ import { ChatProvider, useChat } from './context/ChatContext'; // Import ChatCon
 import 'leaflet/dist/leaflet.css'; // Import Leaflet CSS
 import { Toaster, toast } from 'react-hot-toast';
 import io from 'socket.io-client';
+import { AnimatePresence } from 'framer-motion';
+import ChatWindow from './components/ChatWindow';
 
 // Protected Route Component
 const ProtectedRoute = ({ children, allowedRoles }) => {
