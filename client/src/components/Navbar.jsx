@@ -46,7 +46,7 @@ const Navbar = () => {
                                 {user.role === 'consumer' ? 'Find Food' : 'Live Map'}
                             </Link>
 
-                            {(user.role === 'donor' || user.role === 'organization') && <Link to="/donor" className="text-brand-text hover:text-brand-primary font-medium text-sm">Donate</Link>}
+                            {user.role === 'donor' && <Link to="/donor" className="text-brand-text hover:text-brand-primary font-medium text-sm">Donate</Link>}
                             {user.role === 'organization' && <Link to="/org" className="text-brand-text hover:text-brand-primary font-medium text-sm">Organization</Link>}
                         </>
                     )}
