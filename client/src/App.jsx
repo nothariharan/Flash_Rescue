@@ -14,6 +14,7 @@ import { Toaster, toast } from 'react-hot-toast';
 import io from 'socket.io-client';
 import { AnimatePresence } from 'framer-motion';
 import ChatWindow from './components/ChatWindow';
+import ResourcesPage from './pages/ResourcesPage'; // Import ResourcesPage
 
 // Protected Route Component
 const ProtectedRoute = ({ children, allowedRoles }) => {
@@ -96,6 +97,7 @@ function App() {
             <GlobalChatOverlay />
             <Routes>
               <Route path="/" element={<ConsumerPage />} />
+              <Route path="/resources" element={<ResourcesPage />} /> {/* Add Resources Route */}
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/donor" element={

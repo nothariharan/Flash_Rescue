@@ -41,7 +41,11 @@ const Navbar = () => {
                         </>
                     ) : (
                         <>
-                            {user.role === 'consumer' && <Link to="/consumer" className="text-brand-text hover:text-brand-primary font-medium text-sm">Find Food</Link>}
+                            {/* Global Map Access for everyone */}
+                            <Link to="/consumer" className="text-brand-text hover:text-brand-primary font-medium text-sm">
+                                {user.role === 'consumer' ? 'Find Food' : 'Live Map'}
+                            </Link>
+
                             {(user.role === 'donor' || user.role === 'organization') && <Link to="/donor" className="text-brand-text hover:text-brand-primary font-medium text-sm">Donate</Link>}
                             {user.role === 'organization' && <Link to="/org" className="text-brand-text hover:text-brand-primary font-medium text-sm">Organization</Link>}
                         </>
@@ -49,7 +53,7 @@ const Navbar = () => {
 
                     <Link to="/resources">
                         <InteractiveHoverButton>
-                            Find Resources
+                            Need Help?
                         </InteractiveHoverButton>
                     </Link>
 

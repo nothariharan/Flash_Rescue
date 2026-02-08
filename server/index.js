@@ -42,6 +42,12 @@ const Message = require('./models/Message'); // Import Message model
 io.on('connection', (socket) => {
     console.log('New client connected:', socket.id);
 
+    // Join user room for notifications
+    socket.on('user_connected', (userId) => {
+        socket.join(userId);
+        console.log(`User ${userId} (Socket: ${socket.id}) connected to personal room.`);
+    });
+
     // Join a specific chat room (listingId)
     socket.on('join_chat', (listingId) => {
         socket.join(listingId);
@@ -63,8 +69,34 @@ io.on('connection', (socket) => {
             // Populate sender info for the frontend
             await newMessage.populate('sender', 'name role');
 
-            // Broadcast to room
+            // Broadcast to room (active chatters)
             io.to(listingId).emit('receive_message', newMessage);
+
+            // Fetch listing to find the owner (donor)
+            const Listing = require('./models/Listing');
+            const listing = await Listing.findById(listingId);
+
+            if (listing) {
+                const ownerId = listing.donor; // donor field contains User ID string
+
+                // Notify the owner if they are NOT the sender
+                if (ownerId && ownerId !== senderId) {
+                    console.log(`Notifying owner ${ownerId} of new message from ${senderId}`);
+                    io.to(ownerId).emit('receive_message', newMessage); // Also send to owner's personal room
+
+                    // Also emit a specific notification event
+                    io.to(ownerId).emit('new_message_notification', {
+                        title: `New message from ${newMessage.sender.name}`,
+                        message: text,
+                        listingId: listingId,
+                        senderName: newMessage.sender.name
+                    });
+                }
+
+                // Also notify the sender if they are not in the room (unlikely but good for multi-device)
+                // io.to(senderId).emit('receive_message', newMessage);
+            }
+
         } catch (err) {
             console.error('Error sending message:', err);
         }

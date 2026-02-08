@@ -15,24 +15,31 @@ const NotificationBell = ({ onChatClick }) => {
         // Connect to socket
         socketRef.current = io('http://localhost:5000');
 
+        // Join personal room for notifications
+        if (user) {
+            socketRef.current.emit('user_connected', user.id || user._id);
+        }
+
         // Listen for price updates
         socketRef.current.on('priceUpdate', (data) => {
             addNotification({
                 id: Date.now(),
                 type: 'price',
                 title: 'Price Drop Alert!',
-                message: `${data.itemName || 'An item'} is now ₹${data.newPrice}!`,
+                message: `${data.itemName || 'An item'} is now ₹${data.newUnitParam || data.newPrice}${data.unit ? '/' + data.unit : ''}!`,
                 time: new Date(),
                 read: false,
                 data: data // contains listingId potentially
             });
         });
 
-        // Listen for new messages
+        // Listen for new messages (Standard chat event in case global emit)
         socketRef.current.on('receive_message', (msg) => {
             // Only notify if NOT sent by me
             const senderId = msg.sender._id || msg.sender;
             if (user && senderId !== user.id && senderId !== user._id) {
+                // If we are currently chatting in this room, don't notify? 
+                // For now, simple notification.
                 addNotification({
                     id: Date.now(),
                     type: 'message',
@@ -43,6 +50,19 @@ const NotificationBell = ({ onChatClick }) => {
                     data: { listingId: msg.listingId }
                 });
             }
+        });
+
+        // Listen for targeted notifications (new method)
+        socketRef.current.on('new_message_notification', (data) => {
+            addNotification({
+                id: Date.now(),
+                type: 'message',
+                title: data.title,
+                message: data.message,
+                time: new Date(),
+                read: false,
+                data: { listingId: data.listingId }
+            });
         });
 
         return () => {

@@ -110,7 +110,7 @@ const RegisterPage = () => {
                             <div className="pt-2">
                                 <label className="block text-xs font-bold text-brand-text-secondary mb-2 uppercase tracking-wider">I want to...</label>
                                 <div className="grid grid-cols-3 gap-3">
-                                    {['donor', 'organization'].map((roleOp) => (
+                                    {['consumer', 'donor', 'organization'].map((roleOp) => (
                                         <button
                                             key={roleOp}
                                             type="button"

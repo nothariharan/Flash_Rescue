@@ -7,8 +7,8 @@ const messageSchema = new mongoose.Schema({
         required: true
     },
     sender: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User', // Could be Donor or Consumer
+        type: String, // Changed to String to match User schema
+        ref: 'User',
         required: true
     },
     text: {

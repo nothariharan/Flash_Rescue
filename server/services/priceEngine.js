@@ -70,7 +70,10 @@ const startPriceDecayEngine = (io) => {
                         io.emit('priceUpdate', {
                             id: listing._id,
                             newPrice: listing.currentPrice,
-                            newUnitParam: listing.pricePerUnit // Optional for frontend
+                            itemName: listing.name,
+                            quantity: listing.quantity,
+                            unit: listing.unit,
+                            newUnitParam: listing.pricePerUnit
                         });
                     }
                 }

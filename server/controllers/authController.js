@@ -22,6 +22,7 @@ exports.register = async (req, res) => {
 
         // Create user (password hashing handled by pre-save hook in model)
         const user = await User.create({
+            _id: Date.now().toString() + Math.floor(Math.random() * 1000).toString(), // Generate String ID
             name,
             email,
             password,
