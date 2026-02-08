@@ -102,16 +102,21 @@ const ActivityPage = () => {
                     {/* My Listings Column */}
                     {(user.role === 'donor' || user.role === 'organization') && (
                         <div>
-                            <h2 className="text-xl font-bold text-brand-text mb-4 flex items-center">
-                                <CheckCircle className="mr-2 text-brand-secondary" /> My Listings
-                            </h2>
-                            <div className="space-y-4">
-                                {loading ? <p>Loading...</p> : myListings.length === 0 ? (
+                            <div className="flex justify-between items-center mb-4">
+                                <h2 className="text-xl font-bold text-brand-text flex items-center">
+                                    <CheckCircle className="mr-2 text-brand-secondary" /> My Listings
+                                </h2>
+                            </div>
+
+                            {/* Active Listings */}
+                            <div className="space-y-4 mb-8">
+                                <h3 className="text-sm font-bold text-brand-text-secondary uppercase tracking-wider">Active</h3>
+                                {loading ? <p>Loading...</p> : myListings.filter(i => i.status === 'active').length === 0 ? (
                                     <div className="bg-white p-6 rounded-2xl border border-dashed border-brand-border text-center text-brand-text-secondary">
                                         No active listings.
                                     </div>
                                 ) : (
-                                    myListings.map(item => (
+                                    myListings.filter(i => i.status === 'active').map(item => (
                                         <div key={item._id} className="bg-white p-4 rounded-2xl shadow-sm border border-brand-border hover:shadow-md transition-shadow">
                                             <div className="flex justify-between items-start">
                                                 <div>
@@ -122,14 +127,36 @@ const ActivityPage = () => {
                                                     {item.status}
                                                 </div>
                                             </div>
+                                        </div>
+                                    ))
+                                )}
+                            </div>
 
-                                            <div className="mt-4 pt-4 border-t border-brand-border/50 flex justify-end space-x-2">
+                            {/* History (Claimed/Collected) */}
+                            <div className="space-y-4">
+                                <h3 className="text-sm font-bold text-brand-text-secondary uppercase tracking-wider">History</h3>
+                                {myListings.filter(i => i.status !== 'active').length === 0 ? (
+                                    <p className="text-xs text-brand-text-secondary">No history yet.</p>
+                                ) : (
+                                    myListings.filter(i => i.status !== 'active').map(item => (
+                                        <div key={item._id} className="bg-white/60 p-4 rounded-2xl border border-brand-border grayscale-[50%] hover:grayscale-0 transition-all">
+                                            <div className="flex justify-between items-start">
+                                                <div>
+                                                    <h3 className="font-bold text-brand-text">{item.name}</h3>
+                                                    <p className="text-xs text-brand-text-secondary">{item.quantity} {item.unit}</p>
+                                                </div>
+                                                <div className={`text-xs px-2 py-1 rounded-lg border ${getStatusColor(item.status)}`}>
+                                                    {item.status}
+                                                </div>
+                                            </div>
+                                            {/* Chat button for claimed items */}
+                                            <div className="mt-2 pt-2 border-t border-brand-border/50 flex justify-end">
                                                 {item.status === 'claimed' && (
                                                     <button
                                                         onClick={() => setActiveChat(item._id)}
-                                                        className="bg-white border border-brand-border text-brand-text px-4 py-2 rounded-xl text-sm font-bold flex items-center hover:bg-brand-bg transition-colors"
+                                                        className="text-xs bg-white border border-brand-border text-brand-text px-3 py-1.5 rounded-lg font-bold flex items-center hover:bg-brand-bg transition-colors"
                                                     >
-                                                        <MessageSquare size={16} className="mr-2 text-brand-primary" /> Chat with Claimer
+                                                        <MessageSquare size={14} className="mr-1.5 text-brand-primary" /> Chat
                                                     </button>
                                                 )}
                                             </div>
