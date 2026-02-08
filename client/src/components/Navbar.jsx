@@ -8,7 +8,7 @@ import NotificationBell from './NotificationBell'; // Import NotificationBell
 import clsx from 'clsx';
 
 const Navbar = () => {
-    const { user, logout } = useAuth();
+    const { user, logout, refreshUser } = useAuth();
     const { setActiveChat } = useChat(); // Use Chat Context
     const [isOpen, setIsOpen] = useState(false);
     const navigate = useNavigate();
@@ -75,7 +75,7 @@ const Navbar = () => {
                             </div>
 
                             {/* Notification Bell */}
-                            <NotificationBell onChatClick={setActiveChat} />
+                            <NotificationBell onChatClick={setActiveChat} refreshUser={refreshUser} />
 
                             <Link to="/activity">
                                 <button className="text-sm font-bold text-brand-text hover:text-brand-primary transition-colors">

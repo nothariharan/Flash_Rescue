@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import io from 'socket.io-client';
 import { useAuth } from '../context/AuthContext';
 
-const NotificationBell = ({ onChatClick }) => {
+const NotificationBell = ({ onChatClick, refreshUser }) => {
     const { user } = useAuth();
     const [notifications, setNotifications] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
@@ -63,6 +63,26 @@ const NotificationBell = ({ onChatClick }) => {
                 read: false,
                 data: { listingId: data.listingId }
             });
+        });
+
+        // Listen for when MY item is claimed (to update stats)
+        socketRef.current.on('listingClaimed', (data) => {
+            const myId = user?.id || user?._id;
+            // Check if I am the donor
+            if (myId && (data.donor === myId || data.donor === String(myId))) {
+                console.log('My item was claimed! Refreshing stats...');
+                if (refreshUser) refreshUser();
+
+                addNotification({
+                    id: Date.now(),
+                    type: 'success', // or 'price' icon
+                    title: 'Item Claimed!',
+                    message: 'One of your donations was just claimed used! Your impact score has increased.',
+                    time: new Date(),
+                    read: false,
+                    data: { listingId: data.id }
+                });
+            }
         });
 
         return () => {

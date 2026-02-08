@@ -272,7 +272,11 @@ exports.claimListing = async (req, res) => {
         // Notify everyone
         const io = req.app.get('socketio');
         if (io) {
-            io.emit('listingClaimed', { id: listing._id, claimedBy: req.user.id }); // Re-added claimedBy for consistency
+            io.emit('listingClaimed', {
+                id: listing._id,
+                claimedBy: req.user.id,
+                donor: listing.donor // Send donor ID so they can update their stats
+            });
             analyzeClusters(io);
         }
 
