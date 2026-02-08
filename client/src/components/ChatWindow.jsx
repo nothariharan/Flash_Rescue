@@ -107,50 +107,51 @@ const ChatWindow = ({ listingId, onClose }) => {
             )}
 
             {/* Messages Area */}
-            {messages.map((msg, idx) => {
-                const myId = user?.id || user?._id;
-                const msgSenderId = msg.sender?._id || msg.sender;
-                // Force string comparison to avoid type mismatches (ObjectId vs String)
-                const isMe = String(msgSenderId) === String(myId);
+            <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-50">
+                {messages.map((msg, idx) => {
+                    const myId = user?.id || user?._id;
+                    const msgSenderId = msg.sender?._id || msg.sender;
+                    // Force string comparison to avoid type mismatches (ObjectId vs String)
+                    const isMe = String(msgSenderId) === String(myId);
 
-                // Console log for debugging (remove in production)
-                console.log(`Msg ${idx}:`, { myId, msgSenderId, isMe, msgText: msg.text });
+                    // Console log for debugging (remove in production)
+                    console.log(`Msg ${idx}:`, { myId, msgSenderId, isMe, msgText: msg.text });
 
-                return (
-                    <div key={idx} className={`flex ${isMe ? 'justify-end' : 'justify-start'}`}>
-                        <div
-                            className={`max-w-[80%] p-3 rounded-2xl text-sm ${isMe
-                                ? 'bg-brand-primary text-white rounded-br-none'
-                                : 'bg-white border border-gray-200 text-gray-800 rounded-bl-none'
-                                }`}
-                        >
-                            <p className="font-semibold text-xs mb-1 opacity-70">
-                                {isMe ? 'You' : (msg.sender?.role === 'organization' ? (msg.sender?.name || 'NGO') : (msg.sender?.name || msg.sender?.email?.split('@')[0] || 'User'))}
-                            </p>
-                            <p>{msg.text}</p>
+                    return (
+                        <div key={idx} className={`flex ${isMe ? 'justify-end' : 'justify-start'}`}>
+                            <div
+                                className={`max-w-[80%] p-3 rounded-2xl text-sm ${isMe
+                                    ? 'bg-brand-primary text-white rounded-br-none'
+                                    : 'bg-white border border-gray-200 text-gray-800 rounded-bl-none'
+                                    }`}
+                            >
+                                <p className="font-semibold text-xs mb-1 opacity-70">
+                                    {isMe ? 'You' : (msg.sender?.role === 'organization' ? (msg.sender?.name || 'NGO') : (msg.sender?.name || msg.sender?.email?.split('@')[0] || 'User'))}
+                                </p>
+                                <p>{msg.text}</p>
+                            </div>
                         </div>
-                    </div>
-                );
-            })}
-            <div ref={messagesEndRef} />
-        </div>
+                    );
+                })}
+                <div ref={messagesEndRef} />
+            </div>
 
-            {/* Input Area */ }
-    <form onSubmit={handleSend} className="p-3 bg-white border-t border-gray-100 flex items-center space-x-2">
-        <input
-            type="text"
-            value={newMessage}
-            onChange={(e) => setNewMessage(e.target.value)}
-            placeholder="Type a message..."
-            className="flex-1 bg-gray-100 border-none rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-brand-primary/20 outline-none"
-        />
-        <button
-            type="submit"
-            className="bg-brand-primary text-white p-2 rounded-xl hover:bg-brand-primary-dark transition-colors"
-        >
-            <Send size={18} />
-        </button>
-    </form>
+            {/* Input Area */}
+            <form onSubmit={handleSend} className="p-3 bg-white border-t border-gray-100 flex items-center space-x-2">
+                <input
+                    type="text"
+                    value={newMessage}
+                    onChange={(e) => setNewMessage(e.target.value)}
+                    placeholder="Type a message..."
+                    className="flex-1 bg-gray-100 border-none rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-brand-primary/20 outline-none"
+                />
+                <button
+                    type="submit"
+                    className="bg-brand-primary text-white p-2 rounded-xl hover:bg-brand-primary-dark transition-colors"
+                >
+                    <Send size={18} />
+                </button>
+            </form>
         </motion.div >
     );
 };
