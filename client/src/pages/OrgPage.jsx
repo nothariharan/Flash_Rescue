@@ -81,6 +81,20 @@ const OrgPage = () => {
             setLoading(false);
         });
 
+        // Listen for collection events to remove items from view (if needed, though missionUpdate might cover it)
+        socket.on('listingsCollected', (data) => {
+            // Data is now { ids: [], collectedBy: ... }
+            // We mainly rely on missionUpdate or re-fetch
+            const fetchClusters = async () => {
+                try {
+                    const response = await fetch('http://localhost:5000/api/listings/clusters');
+                    const clusters = await response.json();
+                    setMissions(clusters);
+                } catch (e) { console.error(e); }
+            };
+            fetchClusters();
+        });
+
         // Request initial state
         const fetchClusters = async () => {
             try {

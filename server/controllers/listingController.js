@@ -171,7 +171,10 @@ exports.collectListings = async (req, res) => {
 
         const io = req.app.get('socketio');
         if (io) {
-            io.emit('listingsCollected', listingIds);
+            io.emit('listingsCollected', {
+                ids: listingIds,
+                collectedBy: req.user.id
+            });
             analyzeClusters(io);
         }
 

@@ -68,19 +68,42 @@ const NotificationBell = ({ onChatClick, refreshUser }) => {
         // Listen for when MY item is claimed (to update stats)
         socketRef.current.on('listingClaimed', (data) => {
             const myId = user?.id || user?._id;
-            // Check if I am the donor
-            if (myId && (data.donor === myId || data.donor === String(myId))) {
-                console.log('My item was claimed! Refreshing stats...');
+
+            // If I am the donor OR the claimer, refresh my stats
+            if (myId && (String(data.donor) === String(myId) || String(data.claimedBy) === String(myId))) {
+                console.log('Stats update needed (Claim)! Refreshing...');
                 if (refreshUser) refreshUser();
 
+                // Notification Logic
+                if (String(data.donor) === String(myId)) {
+                    addNotification({
+                        id: Date.now(),
+                        type: 'success',
+                        title: 'Item Claimed!',
+                        message: 'One of your donations was just claimed! Your impact score has increased.',
+                        time: new Date(),
+                        read: false,
+                        data: { listingId: data.id }
+                    });
+                }
+            }
+        });
+
+        // Listen for when I collect items (Organization)
+        socketRef.current.on('listingsCollected', (data) => {
+            const myId = user?.id || user?._id;
+            // data matches { ids: [], collectedBy: ... }
+            if (myId && String(data.collectedBy) === String(myId)) {
+                console.log('Stats update needed (Collection)! Refreshing...');
+                if (refreshUser) refreshUser();
                 addNotification({
                     id: Date.now(),
-                    type: 'success', // or 'price' icon
-                    title: 'Item Claimed!',
-                    message: 'One of your donations was just claimed used! Your impact score has increased.',
+                    type: 'success',
+                    title: 'Collection Recorded!',
+                    message: `You successfully collected ${data.ids.length} items. Great work!`,
                     time: new Date(),
                     read: false,
-                    data: { listingId: data.id }
+                    data: { count: data.ids.length }
                 });
             }
         });
