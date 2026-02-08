@@ -1,0 +1,12 @@
+{
+    "name": "Test Croissant",
+    "category": "bakery",
+    "quantity": "5kg",
+    "initialPrice": 100,
+    "freeAt": "2026-02-06T20:00:00.000Z",
+    "location": {
+        "lat": 12.97,
+        "lng": 77.59,
+        "address": "Test Loc"
+    }
+}

@@ -1,0 +1,133 @@
+@import "tailwindcss";
+
+@theme {
+  /* Fonts */
+  --font-sans: "DM Sans", "Inter", sans-serif;
+  --font-heading: "Plus Jakarta Sans", "Inter", sans-serif;
+  --font-accent: "Caveat", cursive;
+  --font-mono: "IBM Plex Mono", monospace;
+  --font-display: "Racing Sans One", cursive;
+
+  /* Colors - Brand */
+  --color-brand-primary: #FF6B00;
+  --color-brand-primary-light: #FF8F33;
+  --color-brand-primary-dark: #E55A00;
+  --color-brand-secondary: #10B981;
+  --color-brand-secondary-accent: #34D399;
+  --color-brand-bg: #FAFAF9;
+  --color-brand-surface: #FFFFFF;
+  --color-brand-text: #1F2937;
+  --color-brand-text-secondary: #6B7280;
+  --color-brand-warning: #F59E0B;
+  --color-brand-expired: #EF4444;
+  --color-brand-success: #10B981;
+
+  /* Legacy / Mapped Colors */
+  --color-brand-cyan: #10B981;
+  --color-brand-red: #EF4444;
+  --color-brand-yellow: #F59E0B;
+  --color-brand-gray: #6B7280;
+  --color-brand-border: #E5E7EB;
+
+  /* Shadows */
+  --shadow-soft: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+  --shadow-card: 0 10px 30px -5px rgba(0, 0, 0, 0.08);
+  --shadow-glow: 0 0 15px rgba(255, 107, 0, 0.3);
+
+  /* Animations */
+  --animate-pulse-slow: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-float: float 6s ease-in-out infinite;
+
+  @keyframes float {
+
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+}
+
+@layer base {
+  body {
+    @apply bg-brand-bg text-brand-text font-sans antialiased selection:bg-brand-primary/20 selection:text-brand-primary;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-heading font-bold text-brand-text tracking-tight;
+  }
+
+  /* Autofill Fix */
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+    -webkit-text-fill-color: #1F2937 !important;
+    transition: background-color 5000s ease-in-out 0s;
+  }
+}
+
+@layer components {
+
+  /* Glassmorphism Utilities */
+  .glass {
+    @apply bg-white/80 backdrop-blur-md border border-white/20 shadow-card;
+  }
+
+  .glass-dark {
+    @apply bg-gray-900/80 backdrop-blur-md border border-white/10 shadow-card;
+  }
+
+  /* Interactive Elements */
+  .btn-primary {
+    @apply bg-gradient-to-r from-brand-primary to-brand-primary-light text-white font-bold px-6 py-3 rounded-xl shadow-lg shadow-brand-primary/20 hover:shadow-brand-primary/40 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 flex items-center justify-center;
+  }
+
+  .btn-secondary {
+    @apply bg-white border border-brand-border text-brand-text font-bold px-6 py-3 rounded-xl hover:bg-brand-bg hover:border-brand-primary/30 transition-all duration-200;
+  }
+
+  .input-field {
+    @apply w-full bg-white border border-brand-border rounded-xl px-4 py-3 text-brand-text placeholder:text-brand-text-secondary/50 focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 focus:outline-none transition-all duration-200;
+  }
+
+  /* Card Styles */
+  .card-hover {
+    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-card;
+  }
+}
+
+/* Leaflet Overrides */
+.leaflet-popup-content-wrapper {
+  @apply rounded-xl shadow-card border-none p-0 overflow-hidden;
+}
+
+.leaflet-popup-content {
+  @apply m-0 w-full;
+}
+
+.leaflet-container {
+  font-family: 'DM Sans', sans-serif !important;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-brand-text-secondary/20 rounded-full hover:bg-brand-text-secondary/40 transition-colors;
+}

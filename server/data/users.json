@@ -1,0 +1,18 @@
+[
+  {
+    "_id": "1770390088735",
+    "name": "Auth Test User",
+    "email": "test@auth.com",
+    "password": "$2b$10$CrV6krQlFKN1lvCyq..b7.iDRNSPvspw9Wt7lDeJKTwnxGh5F42FS",
+    "role": "donor",
+    "createdAt": "2026-02-06T15:01:28.736Z"
+  },
+  {
+    "_id": "org-test-id",
+    "name": "Rapid Response Team",
+    "email": "org@test.com",
+    "password": "$2b$10$CrV6krQlFKN1lvCyq..b7.iDRNSPvspw9Wt7lDeJKTwnxGh5F42FS",
+    "role": "organization",
+    "createdAt": "2026-02-07T00:00:00.000Z"
+  }
+]
