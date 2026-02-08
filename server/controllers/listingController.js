@@ -71,6 +71,7 @@ exports.getListings = async (req, res) => {
         // General Feed (only active items)
         else {
             query.status = 'active';
+            query.freeAt = { $gt: new Date() }; // Only show items that haven't expired
             if (category && category !== 'all') {
                 query.category = category;
             }
