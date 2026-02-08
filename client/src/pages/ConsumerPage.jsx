@@ -93,15 +93,19 @@ const ConsumerPage = () => {
             const resActive = await axios.get('http://localhost:5000/api/listings');
             let combined = resActive.data;
 
-            // If logged in, also fetch My Claims
-            if (user) {
+            // If logged in and NOT a donor, also fetch My Claims
+            if (user && user.role !== 'donor') {
                 const token = localStorage.getItem('token');
                 const resClaims = await axios.get(`http://localhost:5000/api/listings?claimedBy=${user.id || user._id}`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
+
+                // Only show active claims on the map/feed (exclude collected ones)
+                const activeClaims = resClaims.data.filter(item => item.status === 'claimed');
+
                 // Merge claims (avoiding duplicates if API returns them weirdly, though active vs claimed shouldn't overlap)
-                const claimIds = new Set(resClaims.data.map(i => i._id));
-                combined = [...combined.filter(i => !claimIds.has(i._id)), ...resClaims.data];
+                const claimIds = new Set(activeClaims.map(i => i._id));
+                combined = [...combined.filter(i => !claimIds.has(i._id)), ...activeClaims];
             }
 
             setListings(combined);
